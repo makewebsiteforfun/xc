@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rivals - Medieval Western Board Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="./cover page.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="indexstyle.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'beige': '#f5f5dc',
+                        'wine': '#722F37',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5dc;
+            color: #722F37;
+        }
+        
+        .chat-container {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .message-bubble {
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .own-message {
+            background-color: #e6d0b1;
+            border-radius: 18px 18px 0 18px;
+        }
+        
+        .other-message {
+            background-color: #d4b996;
+            border-radius: 18px 18px 18px 0;
+        }
+        
+        .notification-badge {
+            animation: pulse 1.5s infinite;
+        }
+        
+        .emoji-picker {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .admin-panel {
+            animation: slideDown 0.4s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-20%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+          .logo-img {
+  width: 90px;
+  height: auto;
+  right: 10px;
+  position: relative;
+  display: block;
+}
+        
+        .online-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #722F37;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+    </style>
+</head>
+<body class="bg-beige min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-4xl">
+          <div class="image-container">
+    <a href="index.html" >
+<img src="./back-button.png" class="logo-img" alt="Back Button">
+  </div>
+</a>
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-wine mb-2">Global Chat</h1>
+        <p class="text-center text-wine/80 mb-6">Connect with people around the world</p>
+        
+        <!-- Username Modal -->
+        <div id="usernameModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div class="bg-beige rounded-xl p-6 max-w-md w-full shadow-xl">
+                <h2 class="text-2xl font-bold text-wine mb-4">Welcome to Global Chat</h2>
+                <p class="text-wine mb-4">Please choose a username to start chatting</p>
+                <input type="text" id="usernameInput" placeholder="Enter your name" class="w-full px-4 py-2 rounded-lg border border-wine/30 focus:outline-none focus:ring-2 focus:ring-wine/50 mb-4">
+                <button id="setUsernameBtn" class="w-full bg-wine text-beige py-2 rounded-lg font-medium hover:bg-wine/90 transition">Join Chat</button>
+            </div>
+        </div>
+        
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="hidden bg-wine text-beige rounded-lg p-4 mb-4 admin-panel">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-lg"><i class="fas fa-shield-alt mr-2"></i>Admin Panel</h3>
+                <button id="closeAdminBtn" class="text-beige/80 hover:text-beige"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-beige/20 p-3 rounded-lg">
+                    <h4 class="font-medium mb-2">Online Users</h4>
+                    <ul id="adminOnlineList" class="text-sm">
+                        <!-- Admin will see online users here -->
+                    </ul>
+                </div>
+                <div class="bg-beige/20 p-3 rounded-lg">
+                    <h4 class="font-medium mb-2">Recent Messages</h4>
+                    <ul id="adminMessageList" class="text-sm">
+                        <!-- Admin will see recent messages here -->
+                    </ul>
+                </div>
+                <div class="bg-beige/20 p-3 rounded-lg">
+                    <h4 class="font-medium mb-2">Admin Actions</h4>
+                    <button id="clearChatBtn" class="w-full bg-beige text-wine py-1 rounded text-sm mb-2 hover:bg-beige/80">Clear Chat</button>
+                    <button id="refreshUsersBtn" class="w-full bg-beige text-wine py-1 rounded text-sm hover:bg-beige/80">Refresh Users</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Container -->
+        <div class="chat-container bg-beige border border-wine/20 rounded-xl overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-wine text-beige py-3 px-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <h2 class="font-bold text-xl">Global Chat</h2>
+                    <div id="onlineCount" class="ml-3 bg-beige text-wine text-xs font-medium py-1 px-2 rounded-full">0 online</div>
+                </div>
+                <div class="flex items-center">
+                    <div id="notificationBadge" class="notification-badge bg-red-500 text-beige text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center mr-3 hidden">0</div>
+                    <button id="adminToggleBtn" class="mr-3 text-beige/80 hover:text-beige"><i class="fas fa-cog"></i></button>
+                    <button id="closeChatBtn" class="text-beige/80 hover:text-beige"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="chatMessages" class="h-96 overflow-y-auto p-4 bg-beige/80">
+                <div class="text-center text-wine/70 py-4">
+                    <p>Welcome to the global chat! Say hello to everyone 👋</p>
+                </div>
+                <!-- Messages will appear here -->
+            </div>
+            
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" class="typing-indicator bg-beige px-4 py-2 hidden">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <span class="text-wine/70 text-sm ml-2">Someone is typing...</span>
+            </div>
+            
+            <!-- Chat Input Area -->
+            <div class="bg-beige border-t border-wine/20 p-3">
+                <div class="flex">
+                    <button id="emojiBtn" class="bg-wine text-beige p-2 rounded-lg mr-2 hover:bg-wine/90">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    <input type="text" id="messageInput" placeholder="Type your message..." class="flex-1 px-4 py-2 rounded-lg border border-wine/30 focus:outline-none focus:ring-2 focus:ring-wine/50">
+                    <button id="sendMessageBtn" class="bg-wine text-beige p-2 rounded-lg ml-2 hover:bg-wine/90">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <!-- Emoji Picker -->
+                <div id="emojiPicker" class="emoji-picker hidden bg-white border border-wine/20 rounded-lg mt-2 p-3 grid grid-cols-8 gap-2">
+                    <!-- Emojis will be added here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Online Users -->
+        <div class="mt-4 bg-beige border border-wine/20 rounded-xl p-4">
+            <h3 class="font-bold text-wine mb-2 flex items-center">
+                <span class="online-indicator bg-green-500"></span>
+                Online Users: <span id="onlineCountFooter" class="ml-1">0</span>
+            </h3>
+            <div id="onlineUsers" class="flex flex-wrap gap-2">
+                <!-- Online users will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const usernameModal = document.getElementById('usernameModal');
+        const usernameInput = document.getElementById('usernameInput');
+        const setUsernameBtn = document.getElementById('setUsernameBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const emojiBtn = document.getElementById('emojiBtn');
+        const emojiPicker = document.getElementById('emojiPicker');
+        const notificationBadge = document.getElementById('notificationBadge');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const onlineCount = document.getElementById('onlineCount');
+        const onlineCountFooter = document.getElementById('onlineCountFooter');
+        const onlineUsers = document.getElementById('onlineUsers');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminToggleBtn = document.getElementById('adminToggleBtn');
+        const closeAdminBtn = document.getElementById('closeAdminBtn');
+        const adminOnlineList = document.getElementById('adminOnlineList');
+        const adminMessageList = document.getElementById('adminMessageList');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+        const refreshUsersBtn = document.getElementById('refreshUsersBtn');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // App State
+        let currentUser = null;
+        let unreadMessages = 0;
+        let isChatOpen = true;
+        let onlineUsersList = [];
+        let messages = [];
+        let isTyping = false;
+        let typingTimeout = null;
+        let adminMode = false;
+        
+        // Bad words to filter
+        const badWords = [
+            'fuck', 'fuckyou', 'fuck you', 'pussy', 'ass', 'vagina', 'boobs', 
+            'onlyfans', 'only fans', 'feet pictures', 'ayrefik', 'ayrefike', 
+            'ayrefikoun', 'kese5tak', 'kesemak', 'kesemmak', 'kes ekhtak', 'kesekhtak'
+        ];
+        
+        // Emojis for the picker
+        const emojis = ['😀', '😂', '😍', '😎', '🤩', '🥳', '👍', '👋', '❤️', '🔥', 
+                       '✨', '🎉', '💯', '👏', '🙌', '🤝', '👀', '🤔', '😊', '🥰',
+                       '🤗', '😇', '🥺', '😭', '😡', '🤬', '💩', '👻', '💀', '👽',
+                       '🤖', '👾', '🐶', '🐱', '🐭', '🐰', '🦊', '🐻', '🐼', '🐨',
+                       '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🦄', '🦋'];
+        
+        // Initialize emoji picker
+        function initEmojiPicker() {
+            emojis.forEach(emoji => {
+                const emojiElement = document.createElement('span');
+                emojiElement.textContent = emoji;
+                emojiElement.className = 'text-xl cursor-pointer hover:scale-125 transition transform';
+                emojiElement.addEventListener('click', () => {
+                    messageInput.value += emoji;
+                    messageInput.focus();
+                });
+                emojiPicker.appendChild(emojiElement);
+            });
+        }
+        
+        // Filter bad words
+        function filterMessage(text) {
+            let filteredText = text;
+            badWords.forEach(word => {
+                const regex = new RegExp(word, 'gi');
+                filteredText = filteredText.replace(regex, '****');
+            });
+            return filteredText;
+        }
+        
+        // Set username
+        function setUsername() {
+            const username = usernameInput.value.trim();
+            if (username) {
+                currentUser = username;
+                usernameModal.classList.add('hidden');
+                addSystemMessage(`${username} has joined the chat!`);
+                addOnlineUser(username);
+                simulateUserActivity();
+            }
+        }
+        
+        // Add online user
+        function addOnlineUser(username) {
+            if (!onlineUsersList.includes(username)) {
+                onlineUsersList.push(username);
+                updateOnlineUsersDisplay();
+            }
+        }
+        
+        // Remove online user
+        function removeOnlineUser(username) {
+            const index = onlineUsersList.indexOf(username);
+            if (index !== -1) {
+                onlineUsersList.splice(index, 1);
+                updateOnlineUsersDisplay();
+            }
+        }
+        
+        // Update online users display
+        function updateOnlineUsersDisplay() {
+            onlineCount.textContent = `${onlineUsersList.length} online`;
+            onlineCountFooter.textContent = onlineUsersList.length;
+            
+            onlineUsers.innerHTML = '';
+            onlineUsersList.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.className = 'bg-wine/10 text-wine px-3 py-1 rounded-full text-sm flex items-center';
+                userElement.innerHTML = `<span class="online-indicator bg-green-500"></span>${user}`;
+                onlineUsers.appendChild(userElement);
+            });
+            
+            // Update admin panel
+            if (adminMode) {
+                adminOnlineList.innerHTML = '';
+                onlineUsersList.forEach(user => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center py-1';
+                    li.innerHTML = `
+                        <span>${user}</span>
+                        <button class="text-beige/70 hover:text-beige text-xs" onclick="removeUser('${user}')">
+                            <i class="fas fa-user-slash"></i>
+                        </button>
+                    `;
+                    adminOnlineList.appendChild(li);
+                });
+            }
+        }
+        
+        // Simulate user activity (for demo)
+        function simulateUserActivity() {
+            // Simulate other users joining
+           
+        }
+        
+        // Add system message
+        function addSystemMessage(text) {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'text-center text-wine/70 text-sm py-2';
+            messageElement.textContent = text;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            messages.push({user: 'System', text: text});
+            updateAdminMessageList();
+        }
+        
+        // Add message to chat
+        function addMessage(user, text) {
+            const isCurrentUser = user === currentUser;
+            const filteredText = filterMessage(text);
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = `flex mb-3 ${isCurrentUser ? 'justify-end' : 'justify-start'}`;
+            
+            messageElement.innerHTML = `
+                <div class="message-bubble ${isCurrentUser ? 'own-message' : 'other-message'} p-3">
+                    <div class="font-bold text-wine/90">${user}</div>
+                    <div class="text-wine">${filteredText}</div>
+                    <div class="text-xs text-wine/60 text-right mt-1">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Store message
+            messages.push({user, text: filteredText});
+            updateAdminMessageList();
+            
+            // Update notification badge if chat is closed
+            if (!isChatOpen && !isCurrentUser) {
+                unreadMessages++;
+                updateNotificationBadge();
+            }
+        }
+        
+        // Show typing indicator
+        function showTypingIndicator(user) {
+            typingIndicator.querySelector('span').textContent = `${user} is typing...`;
+            typingIndicator.classList.remove('hidden');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            isTyping = true;
+        }
+        
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            typingIndicator.classList.add('hidden');
+            isTyping = false;
+        }
+        
+        // Send message
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text && currentUser) {
+                addMessage(currentUser, text);
+                messageInput.value = '';
+                
+                // Simulate reply
+                if (text.toLowerCase().includes('hello') || text.toLowerCase().includes('hi')) {
+                    setTimeout(() => {
+                        const users = onlineUsersList.filter(u => u !== currentUser);
+                        if (users.length > 0) {
+                            const randomUser = users[Math.floor(Math.random() * users.length)];
+                            showTypingIndicator(randomUser);
+                            setTimeout(() => {
+                                hideTypingIndicator();
+                                addMessage(randomUser, `Hi ${currentUser}! 👋 Nice to see you here!`);
+                            }, 2000);
+                        }
+                    }, 1000);
+                }
+            }
+        }
+        
+        // Update notification badge
+        function updateNotificationBadge() {
+            if (unreadMessages > 0) {
+                notificationBadge.textContent = unreadMessages;
+                notificationBadge.classList.remove('hidden');
+            } else {
+                notificationBadge.classList.add('hidden');
+            }
+        }
+        
+        // Toggle chat visibility
+        function toggleChatVisibility() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                unreadMessages = 0;
+                updateNotificationBadge();
+            }
+        }
+        
+        // Toggle admin panel
+        function toggleAdminPanel() {
+            adminMode = !adminMode;
+            adminPanel.classList.toggle('hidden');
+            updateAdminMessageList();
+            updateOnlineUsersDisplay();
+        }
+        
+        // Update admin message list
+        function updateAdminMessageList() {
+            if (!adminMode) return;
+            
+            adminMessageList.innerHTML = '';
+            const recentMessages = messages.slice(-5);
+            
+            recentMessages.forEach(msg => {
+                const li = document.createElement('li');
+                li.className = 'py-1 border-b border-beige/20';
+                li.innerHTML = `
+                    <div class="font-medium">${msg.user}</div>
+                    <div class="text-sm">${msg.text}</div>
+                    <button class="text-beige/70 hover:text-beige text-xs mt-1" onclick="deleteMessage(${messages.indexOf(msg)})">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                `;
+                adminMessageList.appendChild(li);
+            });
+        }
+        
+        // Delete message (admin function)
+        function deleteMessage(index) {
+            if (index >= 0 && index < messages.length) {
+                messages.splice(index, 1);
+                // In a real app, you would update the chat display here
+                updateAdminMessageList();
+            }
+        }
+        
+        // Remove user (admin function)
+        function removeUser(username) {
+            removeOnlineUser(username);
+            addSystemMessage(`${username} was removed by admin`);
+        }
+        
+        // Clear chat (admin function)
+        function clearChat() {
+            messages = [];
+            chatMessages.innerHTML = '<div class="text-center text-wine/70 py-4"><p>Chat has been cleared by admin</p></div>';
+            updateAdminMessageList();
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initEmojiPicker();
+            
+            // Set username
+            setUsernameBtn.addEventListener('click', setUsername);
+            
+            // Send message on button click
+            sendMessageBtn.addEventListener('click', sendMessage);
+            
+            // Send message on Enter key
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Toggle emoji picker
+            emojiBtn.addEventListener('click', () => {
+                emojiPicker.classList.toggle('hidden');
+            });
+            
+            // Typing detection
+            messageInput.addEventListener('input', () => {
+                if (!isTyping) {
+                    // In a real app, you would notify others that you're typing
+                }
+                
+                // Reset typing timeout
+                if (typingTimeout) clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                    hideTypingIndicator();
+                }, 2000);
+            });
+            
+            // Close chat button
+            closeChatBtn.addEventListener('click', toggleChatVisibility);
+            
+            // Admin panel toggle
+            adminToggleBtn.addEventListener('click', toggleAdminPanel);
+            closeAdminBtn.addEventListener('click', toggleAdminPanel);
+            
+            // Admin actions
+            clearChatBtn.addEventListener('click', clearChat);
+            refreshUsersBtn.addEventListener('click', () => {
+                updateOnlineUsersDisplay();
+            });
+            
+            // Secret admin activation (Ctrl+Shift+A)
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    adminMode = true;
+                    adminPanel.classList.remove('hidden');
+                    updateAdminMessageList();
+                    updateOnlineUsersDisplay();
+                }
+            });
+        });
+    </script>
+      <script src="index.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>

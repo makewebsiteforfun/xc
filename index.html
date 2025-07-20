@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rivals - Medieval Western Board Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="./cover page.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="indexstyle.css">
+</head>
+<style>
+        /* Color Variables */
+        :root {
+            --wine: #722F37;
+            --beige: #F5F5DC;
+            --white: #ffffff;
+        }
+
+        /* Base Styles */
+        #cards {
+            background-color: var(--beige);
+        }
+
+        /* Card Hover Effects */
+        .card-hover-effect {
+            transition: all 0.3s ease-in-out;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Color Classes */
+        .wine-bg { background-color: var(--wine); }
+        .beige-bg { background-color: var(--beige); }
+        .white-bg { background-color: var(--white); }
+        .wine-text { color: var(--wine); }
+        .beige-text { color: var(--beige); }
+    </style>
+<body class="font-sans">
+    <!-- Header -->
+    <header class="bg-gray-900 text-white sticky top-0 z-50 ">
+        <div class="container mx-auto px-4">
+            <div class="nav-container flex justify-between items-center">
+              <a href="#home">
+  <div class="flex items-center space-x-4 cursor-pointer">
+    <img src="./dika studios horizontal version.png" alt="The Rivals Logo" class="logo-img">
+    <h1 class="text-2xl font-bold font-title">The Rivals</h1>
+  </div>
+</a>
+                                
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-link hover:text-gray-200 transition">Home</a>
+                    <a href="#rulebook" class="nav-link hover:text-gray-200 transition" onclick="openRulebook()">Rule Book<br>قواعد اللعبة</br></a>
+                    <a href="#cards" class="nav-link hover:text-gray-200 transition">Cards<br>البطاقات</br></a>
+                    <a href="./endings.html" class="endings-link nav-link hover:text-gray-200 transition">Endings<br>النهايات</br></a>
+                    <a href="#contact" class="nav-link hover:text-gray-200 transition">Contact<br>تواصل معنا</br></a>
+                    <a href="./chat.html" class="nav-link hover:text-gray-200 transition">Chat<br>دردشات</br></a>
+                     <a href="#" class="hover:text-gray-300 transition">Buy Now<i class="fab fa-shopify"></i><br>اشتري الأن</br></a>
+                     <a href="./revchat.html" class="nav-link hover:text-gray-200 transition">Review<br>مراجعة</br></a>
+
+                </nav>
+      
+                        <div class="language-switcher flex flex-row justify-center gap-2 mt-4">
+  
+</div>        
+
+                <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+                
+        <!-- Mobile Menu -->
+       <div class="md:hidden hidden w-full z-50" id="mobile-menu">
+            <div class="px-4 py-3 space-y-3 flex flex-col">
+                <a href="#home" class="block px-3 py-2  hover:text-wine rounded transition">Home</a>
+                <a href="#rulebook" class="block px-3 py-2  hover:text-wine rounded transition" onclick="openRulebook()">Rule Book<br>قواعد اللعبة</br></a>
+                 <a href="#cards" class="block px-3 py-2  hover:text-wine rounded transition">Cards<br>بطاقات</br></a>
+                <a href="./endings.html" class="endings-link block px-3 py-2 hover:text-wine rounded transition">Endings<br>النهايات</br></a>
+                <a href="#contact" class="block px-3 py-2 hover:text-wine rounded transition">Contact<br>تواصل معنا</br></a>
+                 <a href="./chat.html" class="block px-3 py-2 hover:text-wine rounded transition">Chat<br>دردشات</br></a>
+                 <a href="#" class="hover:text-gray-300 transition">Buy Now<i class="fab fa-shopify"></i><br>اشتري الأن</br></a>
+                 <a href="./revchat.html" class="endings-link block px-3 py-2 hover:text-wine rounded transition">Review<br>مراجعة</br></a>
+
+            </div>
+        </div>
+        <script>
+        document.querySelectorAll(".endings-link").forEach(link => {
+    link.addEventListener("click", () => {
+      localStorage.setItem("playEndingsMusic", "true");
+    });
+  });
+  </script>
+    </header>
+
+    <!-- Hero Section -->
+    <a href="#characters" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 text-white animate-bounce">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+  </svg>
+</a>
+    <section id="home" class="hero-section">
+        <div class="hero-image" style="background-image: url('./cover\ page.jpg')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content container mx-auto px-4 flex items-center justify-center">
+            <div class="text-center text-white max-w-4xl">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 font-title">The Rivals</h1>
+                <p class="text-xl md:text-2xl mb-8">A Medieval Western Board Game of Strategy and Conquest</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#rulebook" class="btn-wine px-8 py-3 rounded-full font-bold transition" onclick="openRulebook()">View Rule Book</a>
+                    <a href="#characters" class="btn-white px-8 py-3 rounded-full font-bold transition">Meet the Characters</a>
+                     <div class="text-center">
+                <button class="btn-wine px-8 py-3 rounded-full font-bold transition" onclick="openAbout()">Learn More About Our Team</button>
+            </div>
+                             
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rule Book Section -->
+    <div id="rulebook-page" class="rulebook-page">
+        <div class="rulebook-content old-paper">
+            <button class="absolute top-4 right-4 text-wine text-2xl" onclick="closeRulebook()">
+                <i class="fas fa-times"></i>
+            </button>
+                        
+           <div class="language-switcher flex flex-row justify-center gap-2 mt-4">
+  <button class="language-btn active" onclick="switchLanguage('en', 'rulebook')">English</button>
+  <button class="language-btn" onclick="switchLanguage('ar', 'rulebook')">العربية</button>
+   
+</div>
+                        
+            <div id="rulebook-en" class="language-content active">
+                <h2 class="text-3xl font-bold text-wine mb-6 text-center">Rule Book</h2>
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold text-wine mb-4">Game Overview</h3>
+                    <p class="mb-4">The Rivals is a story-driven strategy board game set in the divided kingdom of Hizzine. Players take on the roles of powerful figures — from kings,servant,knight,farmer,peasant,and the dealer — each with unique abilities, motivations, and backstories. Every move matters. Every alliance is fragile. Every roll of the dice can change history.
+
+</p>                 <a href="./english one page_.jpg" download class="btn-wine px-4 py-2 rounded font-bold inline-block text-white bg-wine hover:bg-white hover:text-wine border border-wine transition print-only">
+  Download RuleBook
+</a> 
+</div>
+                                <p>OR</p>
+                                                               <p>Press <span class="highlight">The Image To</span> Zoom In</p>       
+<div class="arrow-container">
+  <img src="./Screenshot_2025-05-30_141532-removebg-preview.png" alt="Down Arrow" class="arrow-img" />
+</div>                  
+ <img src="./english one page_.jpg" alt="Game Components" class="rulebook-image" onclick="openImageModal(this.src)">
+                                                                                                    
+                    <img src="https://via.placeholder.com/600x400" alt="Gameplay Example" class="rulebook-image" onclick="openImageModal(this.src)">
+                                               </div>
+                                              
+            
+                        
+            <div id="rulebook-ar" class="language-content text-right" dir="rtl">
+                <h2 class="text-3xl font-bold text-wine mb-6 text-center">كتاب القواعد</h2>
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold text-wine mb-4">نظرة عامة على اللعبة</h3>
+                    <p class="mb-4">المتنافسون هي لعبة لوحية استراتيجية تعتمد على قصة من العصور القديمة، وتدور أحداثها في مملكة حزّين المنقسمة. يتقمّص اللاعبون أدوار شخصيات قوية — من الملك، والخادمة، والفارس، والمزارع، والفلاح، والتاجر — ولكل منهم قدراته الخاصة، ودوافعه الفريدة، وخلفياته القصصية.
+
+كل خطوة تصنع الفارق. كل تحالف هشّ. وكل رمية نرد قد تغيّر مجرى التاريخ.</p>
+ <a href="./arabic one page_.jpg" download class="btn-wine px-4 py-2 rounded font-bold inline-block text-white bg-wine hover:bg-white hover:text-wine border border-wine transition print-only">
+  قم بتنزيل كتاب القواعد
+</a>                                                          <p>أو</p>
+                                                      
+<p>اضغط  <span class="highlight">على </span>  الصورة لتكبيرها</p> 
+
+<div class="arrow-container">
+  <img src="./Screenshot_2025-05-30_141532-removebg-previewarabic.png" alt="Down Arrow" class="arrow-img"/>
+</div>  
+
+
+                    <img src="./arabic one page_.jpg" alt="مكونات اللعبة" class="rulebook-image" onclick="openImageModal(this.src)">
+                                                                                                 
+                    <img src="https://via.placeholder.com/600x400" alt="مثال على طريقة اللعب" class="rulebook-image" onclick="openImageModal(this.src)">
+                               </div>
+                               
+            </div>
+        </div>
+   </div>
+                
+            
+  
+    
+    <!-- Characters Section -->
+<section id="characters" class="characters-section py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-wine mb-4 text-center">Meet the Characters/تعرف على الشخصيات</h2>
+    <p class="text-xl text-gray-700 mb-8 text-center max-w-3xl mx-auto">
+     Hover and discover the powerful figures vying for control of Hizzine. Enter to learn the backstory of each character.
+<br>
+      مرّر المؤشر لاكتشاف الشخصيات القوية التي تتنافس للسيطرة على حزّين. ادخل لتعرف الخلفية القصصية لكل شخصية
+    </p>
+    
+    <div class="character-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Character 1 - The King -->
+      <div class="character-card1" onclick="openCharacterModal('The King/الملك', 'The Reigning King/الملك الحاكم', 'Ruler of Hizzine/حاكم حزّين', 'king_image-removebg-preview (1).png', 
+      {
+        en: '11L-hello_i_am_the_king_-1748263698521.mp3',
+        ar: '11L-hello_i_am_the_king_-1748263698521.mp3'
+      }, 
+      {
+        en: 'He is the current ruler of Hizzin, known for his greed and selfishness. Unlike his noble father, he rules from a place of distance and darkness. Having inherited the throne at a young age, he misuses the kingdom’s wealth for personal trade, keeping his people at arm’s length.',
+        ar: 'هو الحاكم الحالي لمدينة حزّين، معروفٌ بجشعه وأنانيته. على عكس والده النبيل، يحكم من مكانٍ مظلم وبعيد عن شعبه. ورث العرش في سنٍ مبكرة، ويستخدم ثروات المملكة لمصالحه التجارية الخاصة، دون أن يقترب من شعبه '
+      }, 
+      {
+        Water: 42,
+        Meat: 46,
+        wood: 40,
+        To_get_this_character_roll : 5,
+       })">
+        <div class="character-image-container">
+          <img src="./king_image-removebg-preview (1).png" alt="The King">
+        </div>
+        <div class="character-info">
+          <h3 class="character-name">The King/الملك</h3>
+          <p class="character-title">The Reigning King/الملك الحاكم</p>
+          <span class="character-faction faction-royal">Ruler of Hizzine/حاكم حزّين</span>
+        </div>
+      </div>
+
+      <!-- Character 2 - The Servant -->
+      <div class="character-card2" onclick="openCharacterModal('The Servant/الخادمة', 'Keeper of Secrets/حارسة الأسرار', 'The Undercourt/مجلس الظل', 'servant_image-removebg-preview (1).png', 
+      {
+        en: '341807__drfx__some-background-i-made-for-my-game-ambient-music.mp3',
+        ar: '341807__drfx__some-background-i-made-for-my-game-ambient-music.mp3'
+      }, 
+      {
+        en: 'Once a humble maid in the palace, she was promoted to serve the king directly. Aware of the palaces buried secrets, she walks a fine line between loyalty and survival. Unlike the king, she understands the people’s suffering and longs for justice in silence.',
+        ar: 'كانت خادمة بسيطة في القصر قبل أن تتم ترقيتها لتخدم الملك مباشرة. تدرك أن هناك أسرارًا كثيرة يجب كشفها، وتسير بحذر في علاقاتها. بخلاف الملك، تفهم معاناة الناس وتشتاق لتحقيق العدالة في صمت.'
+
+      }, 
+      {
+        Water: 40,
+        Meat: 44,
+        wood: 40,
+        To_get_this_character_roll : 4,
+      })">
+        <div class="character-image-container">
+          <img src="./servant_image-removebg-preview (1).png" alt="The Servant">
+        </div>
+        <div class="character-info">
+          <h3 class="character-name">The Servant/الخادمة</h3>
+          <p class="character-title">Keeper of Secrets/حارسة الأسرار</p>
+          <span class="character-faction faction-east">The Undercourt/مجلس الظل</span>
+        </div>
+      </div>
+
+      <!-- Character 3 - The Knight -->
+      <div class="character-card3" onclick="openCharacterModal('The Knight/الفارس', 'Shield of Valor/درع الشجاعة', 'King Faction/فصيلة الملك', './knight_image-removebg-preview (1).png', 
+      {
+        en: '11L-hello_i_am_the_knigh-1748267119332.mp3',
+        ar: '11L-hello_i_am_the_knigh-1748267119332.mp3'
+      }, 
+      {
+        en: 'Known as the Shield of Valor, he serves under the king’s banner but does not share his corruption. Coming from a harsh childhood, he rose through sheer determination. Though loyal to the throne, he believes the people deserve a ruler who truly fights for them.',
+        ar: 'يُعرف بلقب درع الشجاعة، ويخدم تحت راية الملك لكنه لا يشاركه فساده. نشأ في طفولة قاسية، وصعد بمجهوده الشخصي. رغم ولائه للعرش، يؤمن بأن الشعب يحتاج إلى قائد يُقاتل من أجلهم حقاً.'
+
+      }, 
+      {
+         Water: 42,
+        Meat: 40,
+        wood: 40,
+        To_get_this_character_roll : 3,
+      })">
+        <div class="character-image-container">
+          <img src="./knight_image-removebg-preview (1).png" alt="The Knight">
+        </div>
+        <div class="character-info">
+          <h3 class="character-name">The Knight/الفارس</h3>
+          <p class="character-title">Shield of Valor/درع الشجاعة</p>
+          <span class="character-faction faction-neutral">King Faction/فصيلة الملك</span>
+        </div>
+      </div>
+
+      <!-- Character 4 - The Farmer -->
+      <div class="character-card4" onclick="openCharacterModal('The Farmer/المزارع', 'Land Guardian/حارس الأرض', 'Northern Lands/أراضي الشمال', './farmer_image-removebg-preview (1).png', 
+      {
+        en: 'tutorial of board game-1.mp3',
+        ar: 'tutorial of board game-1.mp3'
+      }, 
+      {
+        en: 'He is the Land Guardian, managing all the villages and resources of Hizzin. Loyal to the king, he avoids political entanglements, just as his father did. To him, hard work and deep knowledge of the land are the true pillars of a strong kingdom.',
+        ar: 'هو حامي الأرض، يدير القرى والموارد في أراضي حزّين. مخلص للملك، ولا يتدخل في السياسة بتاتا كما فعل والده. يؤمن بأن العمل الجاد وفهم الأرض هما الأساس الحقيقي لقوة المملكة.'
+
+      }, 
+      {
+         Water: 38,
+        Meat: 38,
+        wood: 40,
+        To_get_this_character_roll: 2,     
+          })">
+        <div class="character-image-container">
+          <img src="./farmer_image-removebg-preview (1).png" alt="The Farmer">
+        </div>
+        <div class="character-info">
+          <h3 class="character-name">The Farmer/المزارع</h3>
+          <p class="character-title">Land Guardian/حارس الأرض</p>
+          <span class="character-faction faction-north">Northern Lands/أراضي الشمال</span>
+        </div>
+      </div>
+
+      <!-- Character 5 - The Peasant -->
+      <div class="character-card5" onclick="openCharacterModal('The Peasant/الفلاح', 'Fighter of Freedom/مقاتل الحرية', 'Western Rebellion/التمرد الغربي', 'peasant_image-removebg-preview (1).png', 
+      {
+        en: 'tutorial of board game-2.mp3',
+        ar: 'tutorial of board game-2.mp3'
+      }, 
+      {
+        en: 'He is the Fighter of Freedom. Tired of being treated like he doesn’t matter and forced to work without basic needs, he sparked a revolution in Hizzin’s west — the Western Rebellion. He believes that he and his people deserve to be recognized as part of the kingdom they helped build.',
+        ar: ' هو المقاتل للحرية. سئم من أن يُعامل كأنه بلا قيمة، ويُجبر على العمل دون أدنى مقومات الحياة. بدأ ثورة في غرب حزّين تُعرف باسم التمرد الغربي، ليُثبت أن له ولشعبه دورًا في بناء هذه الأرض، وأنهم يستحقون أن يكونوا جزءاً من هذا المجتمع.'
+      }, 
+      {
+        Water: 34,
+        Meat: 36,
+        wood: 38,
+        To_get_this_character_roll : 1,
+      })">
+        <div class="character-image-container">
+          <img src="./peasant_image-removebg-preview (1).png" alt="The Peasant">
+        </div>
+        <div class="character-info">
+          <h3 class="character-name">The Peasant/الفلاح</h3>
+          <p class="character-title">Fighter of Freedom/مقاتل الحرية</p>
+          <span class="character-faction faction-west">Western Rebellion/التمرد الغربي</span>
+        </div>
+      </div>
+
+      <!-- Character 6 - The Dealer -->
+      <div class="character-card6" onclick="openCharacterModal('The Dealer', 'Master of Deception', 'Southern Syndicate', 'ChatGPT_Image_May_9__2025__06_04_39_PM-removebg-preview (4).png', 
+      {
+        en: 'hh.mp3',
+        ar: 'hh.mp3'
+      }, 
+      {
+        en: '	He is the Master of Deception and very close to the reigning king. He can sell you valuable items and talk his way out of any trouble. No one truly knows if he’s just a merchant or also an informant for the royal guards. His growing influence has led to the rise of the Southern Syndicate, spreading his reach across all of Hizzin.',
+        ar: 'هو سيد الخداع ومقرّب جدًّا من الملك الحاكم. يمكنه بيعك أشياء ثمينة والتملّص من أي مشكلة بالكلام المعسول. لا أحد يعلم حقاً إن كان مجرد تاجر، أم جاسوسًا لحراس الملك. أدت قوته المتزايدة إلى نشوء نقابة في الجنوب التي وسعت نفوذه في جميع أنحاء حزّين.تاجر ماكر يتاجر في كل من البضائع والمعلومات. لدى التاجر اتصالات في جميع أنحاء المملكة ويعرف كيف يلعب جميع الأطراف ضد بعضها البعض. أدى نفوذه المتزايد إلى ظهور نقابة الجنوب، وهي شبكة من التجار والجواسيس.'
+      }, 
+      {
+         Water: 30,
+        Meat: 30,
+        wood: 36,
+        To_get_this_character_roll : 6,
+      })">
+        <div class="character-image-container">
+          <img src="./ChatGPT_Image_May_9__2025__06_04_39_PM-removebg-preview (4).png" alt="The Dealer">
+        </div>
+        <div class="character-info">
+          <h3 class="character-name">The Dealer/التاجر</h3>
+          <p class="character-title">Master of Deception/سيد الخداع</p>
+          <span class="character-faction faction-south">Southern Syndicate/النقابة الجنوبية</span>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+            <!-- Players Card -->
+            <div class="card parchment-bg rounded-xl p-8 w-full max-w-xs animate-fadeIn animate-delay-100">
+                <div class="card-icon mb-4 text-wine">
+                    <i class="fas fa-users text-5xl"></i>
+                </div>
+                <div class="text-wine text-5xl font-western mb-2">2-6</div>
+                <div class="text-gray-600 font-bold text-sm uppercase tracking-widest mb-1">Players</div>
+                <h6 class="text-wine font-semibold italic mt-3">Perfect for friends & family</h6>
+                <div class="mt-4">
+                    <div class="flex justify-center space-x-1">
+                        <i class="fas fa-user text-gold"></i>
+                        <i class="fas fa-user text-gold"></i>
+                        <i class="fas fa-user-plus text-gray-400"></i>
+                        <i class="fas fa-user-plus text-gray-400"></i>
+                        <i class="fas fa-user-plus text-gray-400"></i>
+                        <i class="fas fa-user-plus text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider hidden md:block"></div>
+            
+            <!-- Playtime Card -->
+            <div class="card parchment-bg rounded-xl p-8 w-full max-w-xs animate-fadeIn animate-delay-200">
+                <div class="card-icon mb-4 text-wine">
+                    <i class="fas fa-hourglass-half text-5xl"></i>
+                </div>
+                <div class="text-wine text-5xl font-western mb-2">1<span class="text-2xl">To</span>2</div>
+                <div class="text-gray-600 font-bold text-sm uppercase tracking-widest mb-1">Hours Playtime</div>
+                <h6 class="text-wine font-semibold italic mt-3">Quick and engaging sessions</h6>
+            </div>
+            
+            <div class="divider hidden md:block"></div>
+            
+            <!-- Cards Card -->
+            <div class="card parchment-bg rounded-xl p-8 w-full max-w-xs animate-fadeIn">
+                <div class="card-icon mb-4 text-wine">
+                        <i class="fa-regular fa-cards-blank"></i>
+                </div>
+                <div class="text-wine text-5xl font-western mb-2">70+</div>
+                <div class="text-gray-600 font-bold text-sm uppercase tracking-widest mb-1">Cards</div>
+                <h6 class="text-wine font-semibold italic mt-3">Endless combinations</h6>
+                
+            </div>
+        </div>
+        
+
+        
+        
+    </div>
+                            <!-- Card Play Display Section -->
+    <div id="cards" class="py-16 px-4 sm:px-6 lg:px-8 beige-bg">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 wine-text">Game Cards Gallery/معرض بطاقات الألعاب</h2>
+            
+            
+            <!-- Top Row - 3 Cards -->
+            <div class="flex flex-wrap justify-center gap-6 mb-6">
+                <!-- Card 1 -->
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+                    <div class="white-bg rounded-lg overflow-hidden shadow-lg card-hover-effect transition-all duration-300 h-100 flex flex-col">
+                        <div class="h-full overflow-hidden">
+                            <img src="./WhatsApp_Image_2024-08-03_at_21.32.59_2ca78d9e-removebg-preview.png" alt="Card Image 1" class="w-full h-100 object-cover">
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 wine-text">Destiny Cards</h3>
+                            <p class="text-gray-700">Destiny Cards shape the fate of each player, guiding their journey and altering their path.<br>بطاقات القدر تُحدد مصير كل لاعب، وتوجه رحلته وتُغيّر مساره.
+
+</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+                    <div class="white-bg rounded-lg overflow-hidden shadow-lg card-hover-effect transition-all duration-300 h-120 flex flex-col">
+                        <div class="h-full overflow-hidden">
+                            <img src="./a9ab5030-524b-4c91-9e7d-a814762b3b03.jpg" alt="Card Image 2" class="w-60 h-100 object-cover">
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 wine-text">War Cards</h3>
+                            <p class="text-gray-700">Crafted for chaos — these cards escalate rivalry, sharpen war tactics, and inject thrilling tension into every clash.<br>صُممت هذه البطاقات لإشعال التحدي، وصقل استراتيجيات المعركة، وبثّ التوتر والإثارة في كل صراع.
+
+</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+                    <div class="white-bg rounded-lg overflow-hidden shadow-lg card-hover-effect transition-all duration-300 h-full flex flex-col">
+                        <div class="h-full overflow-hidden">
+                            <img src="./Screenshot 2025-07-19 231107.png" alt="Card Image 3" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 wine-text">Shops Cards</h3>
+                            <p class="text-gray-700">These three cards represent in-game shops where players gear up and gain resources.<br>تُمثل هذه البطاقات الثلاث المتاجر التي يمكن للاعبين شرائها ، والحصول على الموارد منها</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Row - 2 Cards (centered) -->
+            <div class="flex flex-wrap justify-center gap-6">
+                <!-- Card 4 -->
+                <div class="w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5 p-4">
+                    <div class="white-bg rounded-lg overflow-hidden shadow-lg card-hover-effect transition-all duration-300 h-100 flex flex-col">
+                        <div class="h-full overflow-hidden">
+                            <img src="./Screenshot 2025-07-19 224401.png" alt="Card Image 4" class="w-60 h-80 object-cover">
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 wine-text">Village Cards</h3>
+                            <p class="text-gray-700">Village Cards — Explore Hizzine’s scattered lands. Each village holds rare resources... and buried secrets.<br>بطاقات القرى — استكشف أراضي حزّين المترامية. كل قرية تَزخر بموارد نادرة... وأسرار مدفونة.
+
+</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 5 -->
+                <div class="w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5 p-4">
+                    <div class="white-bg rounded-lg overflow-hidden shadow-lg card-hover-effect transition-all duration-300 h-full flex flex-col">
+                        <div class="h-full overflow-hidden">
+                            <img src="./ChatGPT Image Jul 19, 2025, 10_19_31 PM.png" alt="Card Image 5" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 wine-text">Faction Cards</h3>
+                            <p class="text-gray-700">Faction Cards represent the leader of a united faction. There are 3 factions: South, East, and West. only a leader can have this card.<br>بطاقات الفصائل تُمثّل قائد فصيل موحّد. هناك ثلاث فصائل: الجنوب، والشرق، والغرب. لا يمكن لأحد امتلاك هذه البطاقة سوى القائد.
+
+</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5 p-4">
+                    <div class="white-bg rounded-lg overflow-hidden shadow-lg card-hover-effect transition-all duration-300 h-100 flex flex-col">
+                        <div class="h-full overflow-hidden">
+                            <img src="./img10.jpg" alt="Card Image 6" class="w-60 h-100 object-cover">
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 wine-text">Trick Cards</h3>
+                            <p class="text-gray-700">Trick Cards — A cunning weapon. In the hands of a player, they can twist fate and seize control of others' destinies.<br>بطاقات الخدعة — سلاح ماكر. في يد اللاعب، تُغيّر المصير وتمنح السيطرة على أقدار الآخرين.
+
+</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div> 
+</section>
+                   
+
+    <!-- Character Modal -->
+    <div id="character-page" class="character-page">
+        <div class="character-content old-paper">
+            <button class="absolute top-4 right-4 text-wine text-2xl" onclick="closeCharacterModal()">
+                <i class="fas fa-times"></i>
+            </button>
+                        
+            <div class="language-switcher flex flex-row justify-center gap-2 mt-4">
+                <button class="language-btn active" onclick="switchLanguage('en', 'character')">English</button>
+                <button class="language-btn" onclick="switchLanguage('ar', 'character')">العربية</button>
+            </div>
+                        
+            <div id="character-en" class="language-content active">
+                <div class="character-header">
+                    <img id="character-modal-portrait" src="" alt="Character Portrait" class="character-portrait">
+                    <h2 id="character-modal-name" class="character-name"></h2>
+                    <p id="character-modal-title" class="character-title"></p>
+                    <span id="character-modal-faction" class="character-faction"></span>
+                </div>
+                                
+                <div class="character-bio">
+                    <h3 class="text-xl font-semibold text-wine mb-3">Character Biography</h3>
+                    <p id="character-modal-bio"></p>
+                </div>
+                                <h3 class="text-4xl font-bold text-wine mb-4 text-center">Character resources</h3>
+                <div class="character-stats">
+                    <div class="stat-item">
+                        <p class="stat-name">Water</p>
+                        <p id="character-modal-Water" class="stat-value">Water</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-name">Meat</p>
+                        <p id="character-modal-Meat" class="stat-value">Meat</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-name">Wood</p>
+                        <p id="character-modal-wood" class="stat-value">Wood</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-name">To Get This Character Roll</p>
+<p id="character-modal-To_get_this_character_roll" class="stat-value">To Get This Character Roll</p>
+                    </div>
+                </div>
+                                
+                <div class="text-center mt-6">
+                    <button id="play-character-voice" class="btn-wine px-6 py-2 rounded-full font-bold transition" onclick="playCharacterVoice('en')">
+                        <i class="fas fa-play mr-2"></i> Play Character Voice
+                    </button>
+                    <audio id="character-voice-en" src="" preload="auto"></audio>
+                </div>
+            </div>
+                        
+            <div id="character-ar" class="language-content text-right" dir="rtl">
+                <div class="character-header">
+                    <img id="character-modal-portrait-ar" src="" alt="صورة الشخصية" class="character-portrait">
+                    <h2 id="character-modal-name-ar" class="character-name"></h2>
+                    <p id="character-modal-title-ar" class="character-title"></p>
+                    <span id="character-modal-faction-ar" class="character-faction"></span>
+                </div>
+                <div class="character-bio">
+                    <h3 class="text-xl font-semibold text-wine mb-3">السيرة الذاتية للشخصية</h3>
+                    <p id="character-modal-bio-ar"></p>
+                </div>
+                                                 <h3 class="text-4xl font-bold text-wine mb-4 text-center">موارد الشخصية</h3>
+
+                <div class="character-stats">
+                    <div class="stat-item">
+                        <p class="stat-name">مياه</p>
+                        <p id="character-modal-مياه-ar" class="stat-value">مياه</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-name">لحم</p>
+                        <p id="character-modal-لحم-ar" class="stat-value">لحم</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-name">خشب</p>
+                        <p id="character-modal-خشب-ar" class="stat-value">خشب</p>
+                    </div>
+                    <div class="stat-item">
+                      <p class="stat-name">للحصول على هذه الشخصية قم برمي</p>
+<p id="character-modal-للحصول_على_هذه_الشخصية_قم_برمي" class="stat-value">للحصول على هذه الشخصية قم برمي</p>
+                    </div>
+                </div>
+                                
+                <div class="text-center mt-6">
+                    <button id="play-character-voice-ar" class="btn-wine px-6 py-2 rounded-full font-bold transition" onclick="playCharacterVoice('ar')">
+                        <i class="fas fa-play ml-2"></i> تشغيل صوت الشخصية
+                    </button>
+                    <audio id="character-voice-ar" src="" preload="auto"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- About Us Section -->
+    <!-- About Us Modal -->
+    <div id="about-page" class="about-page">
+        <div class="about-content old-paper">
+            <button class="absolute top-4 right-4 text-wine text-2xl" onclick="closeAbout()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="language-switcher flex flex-row justify-center gap-2 mt-4">
+    <button class="language-btn active" onclick="switchLanguage('en', 'about')">English</button>
+    <button class="language-btn" onclick="switchLanguage('ar', 'about')">العربية</button>
+</div>
+                        
+            <div id="about-en" class="language-content active">
+                <h2 class="text-3xl font-bold text-wine mb-6 text-center">About Our Team</h2>
+                                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-wine mb-4">Our Mission</h3>
+                        <p class="mb-4">At Dika Studios, we're dedicated to creating board games that combine deep strategy with immersive storytelling. We believe tabletop games have the power to bring people together and create lasting memories.</p>
+                        <p>Every game we design is crafted with attention to detail, balancing complexity with accessibility to create experiences that both casual and hardcore gamers can enjoy.</p>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="./dika studios main logo.png" alt="Our Team" class="about-image" onclick="openImageModal(this.src)">
+                    </div>
+                </div>
+                                 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-wine mb-4">Meet Our Team</h3>
+                        <p class="mb-4">Welcome to our game! We are a passionate team of designers and developers who believe in creating immersive and fun experiences for players of all ages.</p>
+                        <p>Thank you for being part of our journey — we hope you enjoy every moment of the adventure!</p>
+                    </div>
+                </div>
+                <h3 class="text-xl font-semibold text-wine mb-4">Development Timeline</h3>
+                <div class="bg-white p-4 rounded-lg shadow mb-8">
+                    <div class="border-l-4 border-wine pl-4">
+                        <div class="mb-6">
+                            <h4 class="font-bold text-wine">2022 - Concept Phase</h4>
+                            <p>Initial game mechanics and theme development. Hundreds of hours spent playtesting core concepts.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-bold text-wine">2023 – Prototyping</h4>
+                            <p>First physical prototypes created. Early artwork and components developed. Extensive balancing tests. Final artwork completed.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-bold text-wine">2024–2025 – Finalization</h4>
+                            <p>Final artwork completed and ready to launch.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-wine">2026 – Release</h4>
+                            <p><span class="highlight">The Rivals</span> officially launched.</p>
+                        </div>
+                    </div>
+                </div>
+                                
+                <div class="flex justify-center">
+                    <img src="./The Board Game.jpg" alt="Game Development Process" class="about-image" onclick="openImageModal(this.src)">
+                </div>
+            </div>
+                        
+            <div id="about-ar" class="language-content text-right" dir="rtl">
+                <h2 class="text-3xl font-bold text-wine mb-6 text-center">عن فريقنا</h2>
+                                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-wine mb-4">مهمتنا</h3>
+                        <p class="mb-4">في Dika Studios، نحن ملتزمون بإنشاء ألعاب الطاولة التي تجمع بين الاستراتيجية العميقة وسرد القصص الغامرة. نعتقد أن ألعاب الطاولة لديها القدرة على جمع الناس معًا وخلق ذكريات دائمة.</p>
+                        <p>كل لعبة نصممها تتم صناعتها بانتباه للتفاصيل، موازنة بين التعقيد وسهولة الوصول لخلق تجارب يمكن أن يتمتع بها كل من اللاعبين العاديين والمحترفين.</p>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="./dika studios main logo.png" alt="فريقنا" class="about-image" onclick="openImageModal(this.src)">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <div>
+        <h3 class="text-xl font-semibold text-wine mb-4">تعرف على فريقنا</h3>
+        <p class="mb-4">
+            مرحبًا بك في لعبتنا! نحن فريق شغوف من المصممين والمطورين نؤمن بصناعة تجارب ممتعة وغامرة للاعبين من جميع الأعمار.
+        </p>
+        <p>
+            شكرًا لكونك جزءًا من رحلتنا — نأمل أن تستمتع بكل لحظة من هذه المغامرة!
+        </p>
+    </div>
+</div>
+                                
+                <h3 class="text-xl font-semibold text-wine mb-4">جدول التطوير</h3>
+                <div class="bg-white p-4 rounded-lg shadow mb-8">
+                    <div class="border-r-4 border-wine pr-4">
+                        <div class="mb-6">
+                            <h4 class="font-bold text-wine">٢٠٢٢ – مرحلة الفكرة</h4>
+  <p>تطوير الآليات الأساسية للعبة والموضوع العام. تم قضاء مئات الساعات في اختبار مفاهيم اللعبة الأساسية.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-bold text-wine">٢٠٢٣ – النموذج الأولي</h4>
+  <p>تم إنشاء أولى النماذج المادية. تطوير الرسومات الأولية والمكونات. اختبارات توازن شاملة.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-bold text-wine">٢٠٢٤–٢٠٢٥ – التجهيز للإطلاق</h4>
+  <p>تم الانتهاء من الرسومات النهائية وجاهزة للإطلاق.</p>
+                        </div>
+                        <div>
+  <h4 class="font-bold text-wine">٢٠٢٦ – الإصدار</h4>
+<p><span class="highlight">The Rivals</span> تم إصدارها رسميًا.</p>                        </div>
+                    </div>
+                </div>
+                                
+                <div class="flex justify-center">
+                    <img src="./The Board Game.jpg" alt="عملية تطوير اللعبة" class="about-image" onclick="openImageModal(this.src)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+      
+           
+    <!-- Contact Section -->
+    <!-- Contact Form Container -->
+    <section id="contact">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden max-w-3xl mx-auto">
+            <div class="md:flex">
+                <!-- Left Side (Illustration) -->
+                <div class="hidden md:block md:w-1/3 bg-gradient-to-br from-[#722f37] to-[#5a1f28] p-8">
+                    <div class="flex flex-col justify-center h-full">
+                        <div class="text-white mb-8">
+                            <i class="fas fa-envelope-open-text text-5xl mb-4"></i>
+                            <h3 class="text-xl font-semibold"></h3>
+                        </div>
+                        <div class="mt-auto text-white text-sm">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-map-marker-alt mr-3"></i>
+                                <span>Lebanon-Beirut</span>
+                            </div>
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-phone-alt mr-3"></i>
+                                <span>+961 81652310</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope mr-3"></i>
+                                <span>dikastudios@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+                <!-- Right Side (Form) -->
+                <div class="w-full md:w-2/3 p-8">
+                    <!-- Form Message -->
+                    <div id="form-message" class="form-message"></div>
+                                        
+                    <form id="contact-form" action="https://formsubmit.co/dikastudios@gmail.com" method="POST">
+                        <!-- HoneyPot -->
+                        <input type="text" name="_honey" style="display: none;">
+                                                
+                        <!-- Disable Captcha -->
+                        <input type="hidden" name="_captcha" value="false">
+                                                
+                        <!-- Success Redirect -->
+                        <input type="hidden" name="_next" value="?success=true">
+                                                
+                        <div class="space-y-6">
+                            <!-- Name Field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1" aria-required="true">Full Name/الاسم الكامل</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user text-gray-400"></i>
+                                    </div>
+                                    <input type="text" id="name" name="name" required
+                                            class="input-highlight pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 py-2 px-3 border"
+                                            placeholder="John Doe">
+                                </div>
+                            </div>
+                                                        
+                            <!-- Email Field -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1" aria-required="true">Email Address/عنوان البريد الإلكتروني</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-envelope text-gray-400"></i>
+                                    </div>
+                                    <input type="email" id="email" name="email" required
+                                            class="input-highlight pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 py-2 px-3 border"
+                                            placeholder="john@example.com">
+                                </div>
+                            </div>
+                                                        
+                            <!-- Subject Field -->
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1"aria-required="true">Subject/الموضوع</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-tag text-gray-400"></i>
+                                    </div>
+                                    <input type="text" id="subject" name="subject" required
+                                            class="input-highlight pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 py-2 px-3 border"
+                                            placeholder="Your Inquiry...">
+                                </div>
+                            </div>
+                                                        
+                            <!-- Message Field -->
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1"aria-required="true">Your Message/رسالتك</label>
+                                <div class="relative">
+                                    <div class="absolute top-3 left-3">
+                                        <i class="fas fa-comment-dots text-gray-400"></i>
+                                    </div>
+                                    <textarea id="message" name="message" rows="4" required
+                                               class="input-highlight pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 py-2 px-3 border"
+                                               placeholder="Tell us! we are glad to here from you..."></textarea>
+                                </div>
+                            </div>
+                                                        
+                            <!-- Submit Button -->
+                            <div class="pt-2">
+                                <button type="submit" class="submit-btn w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                                    <span id="submit-text">Send Message/إرسال الرسالة</span>
+                                    <span id="loading-spinner" class="loading-spinner ml-2">
+                                        <i class="fas fa-spinner"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <div class="modal-container">
+            <img id="modal-image" src="" alt="Enlarged view" class="modal-content">
+        </div>
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomImage(1.2)"><i class="fas fa-search-plus"></i></button>
+            <button class="zoom-btn" onclick="zoomImage(0.8)"><i class="fas fa-search-minus"></i></button>
+            <button class="zoom-btn" onclick="resetImageZoom()"><i class="fas fa-sync-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-2">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-4 mb-6 md:mb-0">
+
+                    <img src="./dika studios horizontal version.png" alt="The Rivals Logo" class="h-40 w-auto">
+                    <div>
+                
+                        <h3 class="text-xl font-bold">The Rivals</h3>
+                        <p class="text-sm text-gray-400">A Dika Studios Production</p>
+                    </div>
+                </div>
+                                
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="#" class="hover:text-gray-300 transition"><i class="fab fa-shopify"></i></a>
+                    <a href="#" class="hover:text-gray-300 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-gray-300 transition"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+                                
+                <div class="text-center md:text-right">
+                    <p class="text-sm text-gray-400">&copy; 2024 Dika Studios. All rights are reserved.</p>
+                    <p class="text-xs text-gray-500 mt-1">The Rivals is a trademark of Dika Studios</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        
+    
+</body>
+</html>
